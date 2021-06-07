@@ -1,26 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useContext } from "react";
+import { Stufadder } from "./components/Stufadder";
+import { Stufflist } from "./components/Stufflist";
+import {
+	UserContext,
+	UserContextProvider,
+} from "./contexts/UserContextProvider";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+interface person {
+	name: string;
+	position: string;
 }
+
+const App: React.FC = () => {
+	const { isLoggedIn, logInOrout } = useContext(UserContext);
+
+	const [people, setPeople] = useState<person[] | []>([]);
+
+	return (
+		<div className="App">
+			<UserContextProvider>
+				<Stufflist people={people} />
+				<Stufadder adder={setPeople} people={people} />
+			</UserContextProvider>
+		</div>
+	);
+};
 
 export default App;
